@@ -22,14 +22,22 @@
         </video>
       </div>
 
+<style>
+  .vertical-middle{
+      display: block;
+      transform: translate(0,-50%);
+      top: 50%;
+  }
+</style>
+
       <footer>
         <ul>
           <li><img src="../img/logo.png" style="height: 50px;" /></li>
           <li>Change Camera</li>
-          <li>Camera Temp</li>
+          <li><i class="fas fa-thermometer-empty vertical-middle"></i></li>
           <li>Camera Storage Cap</li>
-          <li id="recordBtn">Record</li>
-          <li id="flip">Orientation</li>
+          <li id="recordBtn"><i class="fas fa-video vertical-middle"></i></li>
+          <li id="flip">  <i class="fas fa-redo vertical-middle"></i></li>
           <li>L/C mode</li>
           <li id="camSettings">setup camera</li>
 
