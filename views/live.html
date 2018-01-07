@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>FORTIFYmobile</title>
+    <script src="../scripts/require.js"></script>
+    <link href="../style/style.css" rel="stylesheet" type="text/css">
+    <link href="../style/videojs.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+
+    <!--TODO:: change the way links are getting set so that they are not hard coded paths-->
+    <div id="alert"></div>
+
+    <div class="flex-container">
+      <div class="videoContainer">
+        <video id="videoPlayer" class="video-js vjs-default-skin" crossorigin="anonymous">
+          <source
+            src=""
+            type="application/x-mpegURL"
+          >
+        </video>
+      </div>
+
+      <footer>
+        <ul>
+          <li><img src="../img/logo.png" style="height: 50px;" /></li>
+          <li>Change Camera</li>
+          <li>Camera Temp</li>
+          <li>Camera Storage Cap</li>
+          <li id="recordBtn">Record</li>
+          <li id="flip">Orientation</li>
+          <li>L/C mode</li>
+          <li id="camSettings">setup camera</li>
+
+        </ul>
+      </footer>
+
+    </div>
+
+<script>
+
+  require('../ffmpeg.js');
+
+function showAlert(msg){
+  $('#alert').html(msg);
+  $('#alert').delay(1).slideDown(200);
+}
+
+function updateAlert(msg){
+  $('#alert').html(msg);
+}
+
+showAlert('');
+
+
+  $('#flip').click(function(){
+    $('#videoPlayer').toggleClass('flipOrientation');
+  })
+
+
+$('#recordBtn').click(function(){
+
+  getCamStatus();
+
+  if(opMode != "recording"){
+    cameraCommand("http://192.168.2.1/360fly/camera/recording", "POST");
+  }
+  else{
+    cameraCommand("http://192.168.2.1/360fly/camera/recording", "DELETE");
+  }
+})
+
+
+$('#camSettings').click(function(){
+
+
+})
+
+  function cameraCommand(url, type){
+    return $.ajax({
+        "async": true,
+        "crossDomain": true,
+        "url": url,
+        "method": type,
+        "headers": {}
+      // beforeSend: showLoadingImgFn
+    })
+    .always(function() {
+      // remove loading image maybe
+    })
+    .fail(function() {
+      // showAlert('Searching for a connected camera');
+      if(!$('#alert').is(":visible")){
+        showAlert('Failed. Are you connected via WIFI to a camera?');
+
+      }
+      else{
+        updateAlert('Failed.  Are you connected via WIFI to a camera?');
+      }
+      $('#camConnect').attr('disabled',false);
+      $('#camConnect').css('background','#4444ff');
+    });
+  }
+
+
+  var mode = null;
+  var opMode = null;
+
+
+function getCamStatus(){
+  cameraCommand("http://192.168.2.1/360fly/status", "GET").done(function(data){
+    mode = data.cam_status.mode;
+
+      switch (mode){
+            case 0:
+              opMode = "off";
+              break;
+            case 1:
+              opMode = "booting";
+              break;
+            case 2:
+              opMode = "sleeping";
+              break;
+            case 3:
+              opMode = "standby";
+              break;
+            case 4:
+              opMode = "recording";
+              break;
+            case 5:
+              opMode = "mass_storage";
+              break;
+            case 6:
+              opMode = "updating";
+              break;
+            case 7:
+              opMode = "webcam";
+              break;
+          }
+  });
+  //wait for the ajax request to comeback before logging value
+  setTimeout(function(){console.log(opMode)}, 100);
+}
+
+</script>
+
+  <script src="../scripts/videojs.js"></script>
+  </body>
+</html>
+
+
+
+<STYLE>
+
+</style>

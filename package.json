@@ -1,0 +1,24 @@
+{
+  "name": "fortify_mobile",
+  "version": "0.0.1",
+  "description": "Fortify Mobile is an electron app developed to interact with and act as GUI for the Warrior360 API and RTSP stream",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "delete": "^1.1.0",
+    "electron": "^1.7.10",
+    "express": "^4.16.2",
+    "fluent-ffmpeg": "^2.1.2",
+    "hls-server-ef": "^1.2.3",
+    "jquery": "^3.2.1",
+    "three": "^0.89.0",
+    "video.js": "^6.6.0",
+    "videojs-contrib-hls": "^5.12.2",
+    "videojs-panorama": "^0.1.7"
+  },
+  "devDependencies": {},
+  "author": "Zach Watts",
+  "license": "ISC"
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>FORTIFYmobile</title>
+    <script src="../scripts/require.js"></script>
+    <link href="../style/style.css" rel="stylesheet" type="text/css">
+
+<style>
+  #camConnect{
+    background: #4444ff;
+    border: 0;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    margin: 0px auto;
+    padding: 40px;
+    top: 50%;
+    transform: translate(0, -50%);
+
+  }
+</style>
+
+  </head>
+  <body>
+
+    <!--TODO:: change the way links are getting set so that they are not hard coded paths-->
+    <div id="alert"></div>
+
+
+<button id="camConnect">
+  Connect Camera
+</button>
+
+
+<script>
+function showAlert(msg){
+  $('#alert').html(msg);
+  $('#alert').delay(1).slideDown(200);
+}
+
+function updateAlert(msg){
+  $('#alert').html(msg);
+}
+
+function searchForCamera(url){
+  return $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": url,
+      "method": "GET",
+      "headers": {}
+    // beforeSend: showLoadingImgFn
+  })
+  .always(function() {
+    // remove loading image maybe
+  })
+  .fail(function() {
+    // showAlert('Searching for a connected camera');
+    if(!$('#alert').is(":visible")){
+      showAlert('Failed. Are you connected via WIFI to a camera?');
+
+    }
+    else{
+      updateAlert('Failed.  Are you connected via WIFI to a camera?');
+    }
+    $('#camConnect').attr('disabled',false);
+    $('#camConnect').css('background','#4444ff');
+  });
+}
+
+
+$('#camConnect').click(function(){
+  $('#camConnect').attr('disabled', true);
+  $('#camConnect').css('background','rgba(0,0,0,.2)');
+  showAlert('Searching for a camera...');
+  $('#cameraConnect').hide();
+  $('#cameraConnectionInfo').show();
+
+  searchForCamera("http://192.168.2.1/360fly/info").done( function(data){
+    console.log(data);
+    updateAlert("Connected to " + data.name + ", please wait");
+    setTimeout(function(){window.location.replace("live.html")},3000);
+  })
+
+});
+
+</script>
+
+
+  </body>
+</html>
