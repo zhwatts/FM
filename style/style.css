@@ -66,6 +66,15 @@ ul li{
   list-style-type: none;
 }
 
+ul li i{
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+ul li label{
+  font-size: 10px;
+}
+
 #videoPlayer{
   min-height:100%;
   min-width: 100%;

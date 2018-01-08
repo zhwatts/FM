@@ -33,13 +33,37 @@
       <footer>
         <ul>
           <li><img src="../img/logo.png" style="height: 50px;" /></li>
-          <li>Change Camera</li>
-          <li><i class="fas fa-thermometer-empty vertical-middle"></i></li>
-          <li>Camera Storage Cap</li>
-          <li id="recordBtn"><i class="fas fa-video vertical-middle"></i></li>
-          <li id="flip">  <i class="fas fa-redo vertical-middle"></i></li>
-          <li>L/C mode</li>
-          <li id="camSettings">setup camera</li>
+          <li></li>
+          <li>
+            <i class="fas fa-camera-retro vertical-middle"></i>
+            <br>
+            <label>Change Cam</label></li>
+          <li>
+            <i class="fas fa-thermometer-empty vertical-middle"></i>
+            <br>
+            <label>Temperature</label>
+          </li>
+          <!-- <li>Camera Storage Cap</li> -->
+          <li id="recordBtn">
+            <i class="fas fa-stop-circle vertical-middle"></i>
+            <br>
+            <label>Record</label>
+          </li>
+          <li id="flip">
+            <i class="fas fa-redo vertical-middle"></i>
+            <br>
+            <label>Flip</label>
+          </li>
+          <li>
+            <i class="fas fa-toggle-on vertical-middle"></i>
+            <br>
+            <label>Toggle</label>
+          </li>
+          <li id="camSettings">
+            <i class="fas fa-cog vertical-middle"></i>
+            <br>
+            <label>Settings</label>
+          </li>
 
         </ul>
       </footer>
@@ -50,40 +74,37 @@
 
   require('../ffmpeg.js');
 
-function showAlert(msg){
-  $('#alert').html(msg);
-  $('#alert').delay(1).slideDown(200);
-}
+  function showAlert(msg){
+    $('#alert').html(msg);
+    $('#alert').delay(1).slideDown(200);
+  }
 
-function updateAlert(msg){
-  $('#alert').html(msg);
-}
+  function updateAlert(msg){
+    $('#alert').html(msg);
+  }
 
-showAlert('');
+  showAlert('');
 
 
-  $('#flip').click(function(){
-    $('#videoPlayer').toggleClass('flipOrientation');
+    $('#flip').click(function(){
+      $('#videoPlayer').toggleClass('flipOrientation');
+    })
+
+
+  $('#recordBtn').click(function(){
+
+    getCamStatus();
+
+    if(opMode != "recording"){
+      cameraCommand("http://192.168.2.1/360fly/camera/recording", "POST");
+      $('#recordBtn').html("<i class='far fa-stop-circle vertical-middle'></i><br><label>Stop Recording</label>");
+    }
+    else{
+      cameraCommand("http://192.168.2.1/360fly/camera/recording", "DELETE");
+      $('#recordBtn').html("<i class='fas fa-stop-circle vertical-middle'></i><br><label>Recording</label>");
+    }
   })
 
-
-$('#recordBtn').click(function(){
-
-  getCamStatus();
-
-  if(opMode != "recording"){
-    cameraCommand("http://192.168.2.1/360fly/camera/recording", "POST");
-  }
-  else{
-    cameraCommand("http://192.168.2.1/360fly/camera/recording", "DELETE");
-  }
-})
-
-
-$('#camSettings').click(function(){
-
-
-})
 
   function cameraCommand(url, type){
     return $.ajax({
@@ -110,7 +131,6 @@ $('#camSettings').click(function(){
       $('#camConnect').css('background','#4444ff');
     });
   }
-
 
   var mode = null;
   var opMode = null;

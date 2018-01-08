@@ -13,7 +13,18 @@ let win
 
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({titleBarStyle: 'hidden', width: 1000, height: 800, maxWidth: 1000, maxHeight: 800, backgroundColor: '#000' /*frame: false*/})
+  win = new BrowserWindow({
+    titleBarStyle: 'hidden',
+    width: 1200,
+    height: 1000,
+    // maxWidth: 1200,
+    // maxHeight: 1000,
+    // minWidth: 1200,
+    // minHeight: 1000,
+    // backgroundImage: "url('../img/bg.png')",
+    backgroundColor: '#ccc',
+    /*frame: false*/
+  });
 
 
 
